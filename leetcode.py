@@ -33,3 +33,52 @@ def isPalindrome(s):
             return True
         else:
             return False
+
+#Sort the matrix diagonally
+def diagonalSort(mat):
+        m, n = len(mat), len(mat[0])
+
+        for i in range(m):
+            j_range = range(min(m - i, n))
+            diag_mat = sorted(mat[i + j][j] for j in j_range)
+            for j in j_range:
+                mat[i + j][j] = diag_mat[j]
+
+        for j in range(1, n):
+            i_range = range(min(n - j, m))
+            diag_mat = sorted(mat[i][i + j] for i in i_range)
+            for i in i_range:
+                mat[i][i + j] = diag_mat[i]
+
+        return mat
+
+
+
+#One number
+#Given a non-empty array of integers, every element appears twice except for one. Find that single one.
+
+def singleNumber(nums):
+    a = []
+    b = []
+    nums.sort()
+    for i in range(len(nums)):
+        if i % 2 == 0:
+            a.append(nums[i])
+        else:
+            b.append(nums[i])
+    a = set(a)
+    b = set(b)
+    if len(b) > len(a):
+        c = b - a
+    else:
+        c = a - b
+    c = list(c)
+    return c[0]
+
+def singleNumber1(nums): #Здесь используется манипулирование битами. Самый эффективный вариант. Надо разобраться как работает
+    a = 0
+    for i in nums:
+        a ^= i
+    return a
+
+singleNumber1([17,12,5,-6,12,4,17,-5,2,-3,2,4,5,16,-3,-4,15,15,-4,-5,-6])
