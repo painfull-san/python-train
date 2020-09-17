@@ -26,7 +26,7 @@ def shuffle(nums, n):
 #Runtime: 116 ms, faster than 5.44% of Python3 online submissions for Valid Palindrome.
 #Memory Usage: 14.8 MB, less than 37.76% of Python3 online submissions for Valid Palindrome.
 def isPalindrome(s):
-        delChar = list("\\'!@#$%^&*(){}[]_+:\\ \"|\?/><,.;*-`~")
+        delChar = list(r"\\'!@#$%^&*(){}[]_+:\\ \"|\?/><,.;*-`~")
         a = s.lower()
         a = ''.join(list(filter(lambda c: c not in delChar, a)))
         if a == a[::-1]:
@@ -76,9 +76,25 @@ def singleNumber(nums):
     return c[0]
 
 def singleNumber1(nums): #Здесь используется манипулирование битами. Самый эффективный вариант. Надо разобраться как работает
-    a = 0
+    a = 0                #При использовании XOR(^) биты в числе смещаются, если число встречается ещё раз, то смещение идёт обратно. В итоге остаётся только одно число без дубликата
     for i in nums:
         a ^= i
     return a
+singleNumber1([4,2,2,1,4])
 
-singleNumber1([17,12,5,-6,12,4,17,-5,2,-3,2,4,5,16,-3,-4,15,15,-4,-5,-6])
+#Best time to buy and sell stock
+def maxProfit(prices):           #Не проходит лимит времени на большом списке. 
+    profitsList = []
+    for i in prices:
+        profitsList += subtractionList(i,prices[prices.index(i) + 1:])
+        
+    return max(profitsList)
+    
+
+def subtractionList(num,num_list):
+    a = []
+    for i in num_list:
+        a.append(i - num)
+    return a
+
+maxProfit([2,4,1])
