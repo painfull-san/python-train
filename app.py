@@ -14,7 +14,7 @@ if os.path.isfile('save.txt'):
 def addApp():
 
     for widget in frame.winfo_children():
-        widget.destroy( )
+        widget.destroy()
 
     filename = filedialog.askopenfilename(initialdir="/", title="Select file",
     filetypes=(("executables", "*.exe"), ("all files", "*.*")))

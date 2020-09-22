@@ -5,11 +5,15 @@ import tkinter as tk
 
 
 root = tk.Tk()
-
+root.title('Курсы валют')
+root.geometry('250x30')
 
 DOLLAR_RUB = 'https://www.google.com/search?client=firefox-b-d&q=%D0%B4%D0%BE%D0%BB%D0%BB%D0%B0%D1%80+%D0%BA+%D1%80%D1%83%D0%B1%D0%BB%D1%8E'
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0'}
 EURO_RUB = 'https://www.google.com/search?client=firefox-b-d&q=%D0%BA%D1%83%D1%80%D1%81+%D0%B5%D0%B2%D1%80%D0%BE+%D0%BA+%D1%80%D1%83%D0%B1%D0%BB%D1%8E'
+
+label = tk.Label(root)
+label.pack()
 
 def check_currency():
     full_page_dol = requests.get(DOLLAR_RUB, headers=headers)
@@ -22,14 +26,12 @@ def check_currency():
 
     convert_dol = soup_dol.findAll('span', {'class': 'DFlfde SwHCTb', 'data-precision':'2'})
    
-    currency = 'Текущий курс: 1 доллар = ' + convert_dol[0].text + '\n' + 'Текущий курс: 1 евро   = ' + convert_eur[0].text
-    return currency
+    currency = 'Текущий курс: 1 доллар = ' + convert_dol[0].text + '\n' + 'Текущий курс: 1 евро = ' + convert_eur[0].text
+    
+    label.config(text=currency)
 
-#запилить автообновление курса валют через час
-frame = tk.Frame(root, bg="white")
-label = tk.Label(frame, text=check_currency())
+    root.after(3600000, check_currency)
 
-frame.pack()
-label.pack()
+check_currency()
 
 root.mainloop()
